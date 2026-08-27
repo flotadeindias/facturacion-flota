@@ -4,10 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema de Facturación</title>
-    <!-- Hoja de estilos de la aplicación -->
-    <link rel="stylesheet" href="style.css">
-    <!-- Librería para la exportación a PDF -->
+    <title>Sistema de Facturación — Flota de Indias</title>
+
+    <!-- Bootstrap Icons & Font -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <!-- Hoja de estilos -->
+    <link rel="stylesheet" href="style.css?v=4.0">
+
+    <!-- html2pdf.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 </head>
 
@@ -16,89 +21,194 @@
     <!-- 1. Pantalla de Autenticación -->
     <div id="login-screen">
         <form id="loginForm">
-            <h2>Acceso al Sistema</h2>
-            <input type="text" id="username" placeholder="Usuario" required />
-            <input type="password" id="password" placeholder="Contraseña" required />
-            <button type="submit">Iniciar Sesión</button>
+            <div class="login-brand">
+                <i class="bi bi-building-fill"></i>
+                <h2>Acceso al Sistema</h2>
+                <p>Gestión de Facturación Corporativa</p>
+            </div>
+            
+            <div class="form-group">
+                <label for="username"><i class="bi bi-person"></i> Usuario</label>
+                <input type="text" id="username" placeholder="Ingresa tu usuario" required autocomplete="username" />
+            </div>
+
+            <div class="form-group">
+                <label for="password"><i class="bi bi-key"></i> Contraseña</label>
+                <input type="password" id="password" placeholder="Ingresa tu contraseña" required autocomplete="current-password" />
+            </div>
+
+            <button type="submit" class="btn-primary"><i class="bi bi-box-arrow-in-right"></i> Iniciar Sesión</button>
         </form>
     </div>
 
-    <!-- 2. Panel Principal (Protegido por Login) -->
+    <!-- 2. Panel Principal -->
     <div id="app-container" style="display: none;">
         
-        <!-- Formulario de entrada de datos de la factura -->
-        <form id="invoiceForm">
-            <select id="companySelect">
-                <option value="flota">Apartamentos Flota de Indias SL</option>
-                <option value="carrascal">Carrascal & Medina SL</option>
-            </select>
-            
-            <input type="text" id="invoiceNumber" placeholder="Nº Factura" readonly />
-            <input type="date" id="invoiceDate" />
-            <input type="text" id="customerName" placeholder="Nombre del Cliente" />
-            <input type="text" id="cifNif" placeholder="CIF / NIF" />
-            <input type="text" id="address" placeholder="Domicilio" />
-            <input type="text" id="postalCode" placeholder="Código Postal" />
-            <input type="text" id="province" placeholder="Provincia" />
-            <input type="date" id="entryDate" placeholder="Fecha Entrada" />
-            <input type="date" id="exitDate" placeholder="Fecha Salida" />
-            <input type="number" id="totalPrice" placeholder="Precio Total (€)" step="0.01" />
-            
-            <button id="downloadPdfBtn" type="button">Descargar Factura PDF</button>
-        </form>
-
-        <!-- Vista previa formato Hoja A4 -->
-        <div id="invoice-preview">
-            <div class="company-header">
-                <div class="company-details">
-                    <h2 id="prev-companyName">Empresa Emisora</h2>
-                    <p id="prev-companyCif">CIF/NIF Empresa</p>
-                    <p id="prev-companyAddress">Dirección Empresa</p>
-                </div>
-                <img id="prev-companyLogo" src="logo.jpg" alt="Logo Empresa" />
-            </div>
-            
-            <hr />
-
-            <div class="client-header">
-                <div class="client-info">
-                    <h3 id="prev-customerName">Nombre Cliente</h3>
-                    <p id="prev-cifNif">CIF/NIF Cliente</p>
-                    <p id="prev-address">Domicilio</p>
-                    <p id="prev-location">Población / Provincia</p>
-                </div>
-                <div class="invoice-meta">
-                    <p><strong>Nº Factura:</strong> <span id="prev-invoiceNumber">-</span></p>
-                    <p><strong>Fecha:</strong> <span id="prev-invoiceDate">-</span></p>
-                </div>
+        <!-- COLUMNA IZQUIERDA: FORMULARIO -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h3><i class="bi bi-pencil-square"></i> Datos de Factura</h3>
             </div>
 
-            <table class="preview-table">
-                <thead>
-                    <tr>
-                        <th>Concepto</th>
-                        <th>Noches</th>
-                        <th>Total</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td id="prev-concept">-</td>
-                        <td id="prev-nights">-</td>
-                        <td id="prev-total">-</td>
-                    </tr>
-                </tbody>
-            </table>
+            <form id="invoiceForm">
+                <div class="form-group">
+                    <label for="companySelect">Empresa Emisora</label>
+                    <select id="companySelect">
+                        <option value="flota">Apartamentos Flota de Indias SL</option>
+                        <option value="carrascal">Carrascal & Medina SL</option>
+                    </select>
+                </div>
 
-            <div class="total-summary">
-                <p><strong>TOTAL FACTURA:</strong> <span id="prev-finalTotal">0,00 €</span></p>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="invoiceNumber">Nº Factura</label>
+                        <input type="text" id="invoiceNumber" placeholder="Cargando..." />
+                    </div>
+                    <div class="form-group">
+                        <label for="invoiceDate">Fecha Emisión</label>
+                        <input type="date" id="invoiceDate" />
+                    </div>
+                </div>
+
+                <div class="section-divider"><span>Datos del Cliente</span></div>
+
+                <div class="form-group">
+                    <label for="customerName">Nombre / Razón Social</label>
+                    <input type="text" id="customerName" placeholder="Nombre completo o empresa" />
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="cifNif">CIF / NIF</label>
+                        <input type="text" id="cifNif" placeholder="B00000000" />
+                    </div>
+                    <div class="form-group">
+                        <label for="postalCode">Código Postal</label>
+                        <input type="text" id="postalCode" placeholder="41000" />
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="address">Domicilio</label>
+                        <input type="text" id="address" placeholder="Calle, número, piso" />
+                    </div>
+                    <div class="form-group">
+                        <label for="province">Provincia</label>
+                        <input type="text" id="province" placeholder="Sevilla" />
+                    </div>
+                </div>
+
+                <div class="section-divider"><span>Detalle de Estancia</span></div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="entryDate">Fecha de entrada</label>
+                        <input type="date" id="entryDate" />
+                    </div>
+                    <div class="form-group">
+                        <label for="exitDate">Fecha de salida</label>
+                        <input type="date" id="exitDate" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="totalPrice">Precio Total (€)</label>
+                    <input type="number" id="totalPrice" placeholder="0.00" step="0.01" />
+                </div>
+
+                <button id="downloadPdfBtn" type="button" class="btn-success">
+                    <i class="bi bi-file-earmark-pdf-fill"></i> Descargar Factura PDF
+                </button>
+            </form>
+        </aside>
+
+        <!-- COLUMNA DERECHA: VISTA PREVIA HOJA A4 EXACTA -->
+        <main class="preview-stage">
+            <div id="invoice-preview" class="a4-page">
+                
+                <div class="pdf-wrapper">
+                    <!-- Encabezado de Empresa -->
+                    <div class="company-header">
+                        <div class="company-details">
+                            <h2 id="prev-companyName">Apartamentos Flota de Indias SL</h2>
+                            <p id="prev-companyCif">CIF: B90362906</p>
+                            <p id="prev-companyAddress">C/ Pozo Nuevo 1 1A, 41927 Mairena del Aljarafe</p>
+                        </div>
+                        <div class="logo-box">
+                            <i class="bi bi-building"></i>
+                            <span>FLOTA DE INDIAS</span>
+                        </div>
+                    </div>
+
+                    <div class="pdf-divider"></div>
+
+                    <!-- Cabecera de Cliente / Datos Factura -->
+                    <div class="client-header">
+                        <div class="client-info">
+                            <span class="box-label">FACTURAR A:</span>
+                            <h3 id="prev-customerName">Nombre Cliente</h3>
+                            <p id="prev-cifNif">CIF/NIF Cliente</p>
+                            <p id="prev-address">Domicilio</p>
+                            <p id="prev-location">Población / Provincia</p>
+                        </div>
+                        <div class="invoice-meta">
+                            <div class="meta-card">
+                                <p class="inv-num"><strong>FACTURA:</strong> <span id="prev-invoiceNumber">-</span></p>
+                                <p class="inv-date"><strong>Fecha:</strong> <span id="prev-invoiceDate">-</span></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tabla de Conceptos -->
+                    <table class="preview-table">
+                        <thead>
+                            <tr>
+                                <th>CONCEPTO</th>
+                                <th class="text-center">NOCHES</th>
+                                <th class="text-right">TOTAL</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td id="prev-concept">ESTANCIA APARTAMENTO</td>
+                                <td id="prev-nights" class="text-center">0</td>
+                                <td id="prev-total" class="text-right">0,00 €</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <!-- Totales -->
+                    <div class="total-summary-wrapper">
+                        <table class="totals-table">
+                            <tr>
+                                <td>Base Imponible:</td>
+                                <td id="prev-baseTotal">0,00 €</td>
+                            </tr>
+                            <tr>
+                                <td>IVA (0% exento):</td>
+                                <td>0,00 €</td>
+                            </tr>
+                            <tr class="total-row">
+                                <td>TOTAL FACTURA:</td>
+                                <td id="prev-finalTotal">0,00 €</td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <!-- Nota Legal al pie -->
+                    <div class="legal-footer">
+                        <p>Operación exenta de IVA en virtud del Art. 20.Uno.23º de la Ley 37/1992 del Impuesto sobre el Valor Añadido, relativo al arrendamiento de vivienda de uso residencial.</p>
+                    </div>
+                </div>
+
             </div>
-        </div>
+        </main>
 
     </div>
 
-    <!-- Script de lógica de la aplicación -->
-    <script src="app.js"></script>
+    <!-- Lógica de la aplicación -->
+    <script src="app.js?v=4.0"></script>
 </body>
 
 </html>
