@@ -3,13 +3,13 @@
    ========================================================= */
 
 :root {
-  --navy-blue: #1e40af;
-  --navy-hover: #1d4ed8;
-  --accent-green: #2e7d32;
-  --accent-green-hover: #1b5e20;
+  --navy-blue: #0f172a; /* Azul marino oscuro original */
+  --navy-hover: #1e293b;
+  --accent-green: #1b5e20; /* Verde oscuro */
+  --accent-green-hover: #144917;
   --bg-body: #eceff1;
   --border-color: #cfd8dc;
-  --text-primary: #1c2833;
+  --text-primary: #0f172a;
 }
 
 * {
@@ -32,7 +32,7 @@ body {
   align-items: center;
   height: 100vh;
   padding: 20px;
-  background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+  background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
 }
 
 #loginForm {
@@ -278,7 +278,7 @@ body {
   margin-bottom: 4px;
 }
 
-#prev-companyCif, #prev-companyAddress {
+#prev-companyCif, #prev-companyAddress, #prev-companyLocation {
   color: #475569;
   font-size: 0.85rem;
   line-height: 1.3;
