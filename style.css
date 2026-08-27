@@ -94,6 +94,35 @@ body {
   outline: none;
 }
 
+.password-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.password-wrapper input {
+  width: 100%;
+  padding-right: 40px;
+}
+
+.toggle-password-btn {
+  position: absolute;
+  right: 10px;
+  background: none;
+  border: none;
+  color: #64748b;
+  cursor: pointer;
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 4px;
+}
+
+.toggle-password-btn:hover {
+  color: var(--navy-blue);
+}
+
 .btn-primary {
   background-color: var(--navy-blue);
   color: white;
@@ -211,18 +240,20 @@ body {
   overflow-x: auto;
 }
 
-/* Hoja A4 Dimensiones Físicas Exactas */
 .a4-page {
-  width: 210mm;
-  height: 297mm;
-  min-height: 297mm;
+  width: 794px;
+  height: 1120px;
+  max-height: 1120px;
   background-color: #ffffff;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-  padding: 20mm;
+  padding: 40px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  page-break-inside: avoid !important;
+  break-inside: avoid !important;
+  overflow: hidden;
 }
 
 .pdf-wrapper {
