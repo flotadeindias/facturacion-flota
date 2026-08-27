@@ -196,6 +196,7 @@ document.getElementById('downloadPdfBtn').addEventListener('click', async () => 
     html2canvas: { 
       scale: 2, 
       useCORS: true,
+      allowTaint: true,
       scrollY: 0,
       logging: false
     },
