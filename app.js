@@ -149,7 +149,7 @@ function updatePreview() {
   document.getElementById('prev-finalTotal').textContent = formattedTotal;
 }
 
-// 5. Registro y Generación de PDF (1 Sola Página Garantizada)
+// 5. Registro y Generación de PDF
 document.getElementById('downloadPdfBtn').addEventListener('click', async () => {
   const btn = document.getElementById('downloadPdfBtn');
   btn.disabled = true;
@@ -185,7 +185,7 @@ document.getElementById('downloadPdfBtn').addEventListener('click', async () => 
     console.error("Error al registrar la factura:", err);
   }
 
-  // Generación de descarga PDF
+  // Generación de la descarga PDF
   const element = document.getElementById('invoice-preview');
   const fileName = `FACTURA_${numFactura}.pdf`.replace(/\s+/g, '_');
 
@@ -196,7 +196,8 @@ document.getElementById('downloadPdfBtn').addEventListener('click', async () => 
     html2canvas: { 
       scale: 2, 
       useCORS: true,
-      scrollY: 0
+      scrollY: 0,
+      logging: false
     },
     jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
     pagebreak: { mode: 'avoid-all' }
@@ -205,7 +206,7 @@ document.getElementById('downloadPdfBtn').addEventListener('click', async () => 
   try {
     await html2pdf().set(opt).from(element).save();
 
-    // Resetear formulario tras confirmar la descarga
+    // Resetear formulario tras la descarga
     document.getElementById('customerName').value = '';
     document.getElementById('cifNif').value = '';
     document.getElementById('address').value = '';
