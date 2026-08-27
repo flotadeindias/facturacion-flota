@@ -131,6 +131,8 @@ function updatePreview() {
   const prov = getVal('province');
   document.getElementById('prev-location').textContent = (cp || prov) ? `${cp} ${prov}`.trim() : 'Población / Provincia';
 
+  // LÓGICA DE CONCEPTO Y FECHAS
+  const baseConcept = getVal('conceptInput').trim() || 'ESTANCIA APARTAMENTO';
   const entryStr = getVal('entryDate');
   const exitStr = getVal('exitDate');
   
@@ -149,11 +151,11 @@ function updatePreview() {
     const diaSalida = dExit.getDate();
     const mesNombre = meses[dExit.getMonth()];
 
-    document.getElementById('prev-concept').textContent = `ESTANCIA APARTAMENTO (${diaEntrada} - ${diaSalida} ${mesNombre})`;
+    document.getElementById('prev-concept').textContent = `${baseConcept} (${diaEntrada} - ${diaSalida} ${mesNombre})`;
     document.getElementById('prev-nights').textContent = nights;
   } else {
-    document.getElementById('prev-concept').textContent = 'ESTANCIA APARTAMENTO';
-    document.getElementById('prev-nights').textContent = '0';
+    document.getElementById('prev-concept').textContent = baseConcept;
+    document.getElementById('prev-nights').textContent = '-';
   }
 
   const total = parseFloat(getVal('totalPrice')) || 0;
@@ -225,6 +227,7 @@ document.getElementById('downloadPdfBtn').addEventListener('click', async () => 
     document.getElementById('address').value = '';
     document.getElementById('postalCode').value = '';
     document.getElementById('province').value = '';
+    document.getElementById('conceptInput').value = 'ESTANCIA APARTAMENTO';
     document.getElementById('entryDate').value = '';
     document.getElementById('exitDate').value = '';
     document.getElementById('totalPrice').value = '';
