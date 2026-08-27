@@ -3,8 +3,8 @@
    ========================================================= */
 
 :root {
-  --navy-blue: #0b1a2c;
-  --navy-hover: #142a45;
+  --navy-blue: #1e40af; /* Azul más claro y vivo */
+  --navy-hover: #1d4ed8;
   --accent-green: #2e7d32;
   --accent-green-hover: #1b5e20;
   --bg-body: #eceff1;
@@ -32,7 +32,7 @@ body {
   align-items: center;
   height: 100vh;
   padding: 20px;
-  background: linear-gradient(135deg, #0b1a2c 0%, #1c3144 100%);
+  background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
 }
 
 #loginForm {
@@ -282,22 +282,34 @@ body {
   line-height: 1.3;
 }
 
+/* Ajustes para garantizar el renderizado del Logo en PDF */
 .logo-box {
-  background-color: var(--navy-blue);
-  color: #ffffff;
-  padding: 12px;
+  background-color: var(--navy-blue) !important;
+  color: #ffffff !important;
+  padding: 10px;
   border-radius: 6px;
   text-align: center;
-  width: 110px;
-  height: 60px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  width: 120px;
+  min-height: 65px;
+  display: block;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
 }
 
-.logo-box i { font-size: 1.4rem; }
-.logo-box span { font-size: 0.55rem; font-weight: 800; letter-spacing: 0.5px; }
+.logo-box i {
+  font-size: 1.6rem;
+  display: block;
+  margin-bottom: 2px;
+  color: #ffffff !important;
+}
+
+.logo-box span {
+  font-size: 0.6rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  display: block;
+  color: #ffffff !important;
+}
 
 .pdf-divider {
   height: 2px;
@@ -368,12 +380,14 @@ body {
 }
 
 .preview-table th {
-  background-color: var(--navy-blue);
-  color: #ffffff;
+  background-color: var(--navy-blue) !important;
+  color: #ffffff !important;
   padding: 10px 14px;
   font-size: 0.8rem;
   font-weight: 700;
   letter-spacing: 0.5px;
+  -webkit-print-color-adjust: exact;
+  print-color-adjust: exact;
 }
 
 .preview-table td {
