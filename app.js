@@ -8,12 +8,14 @@ const EMPRESAS = {
   flota: { 
     nombre: "APARTAMENTOS FLOTA DE INDIAS S.L.", 
     cif: "CIF: B90362906", 
-    direccion: "C/ Pozo Nuevo 1 1A, 41927 Mairena del Aljarafe" 
+    direccion: "C/ Pozo Nuevo 1 1A",
+    poblacion: "41927 Mairena del Aljarafe"
   },
   carrascal: { 
     nombre: "CARRASCAL & MEDINA SL", 
     cif: "CIF: B56344088", 
-    direccion: "Fernández y González, 16 Bajo D, 41002 Sevilla" 
+    direccion: "Fernández y González, 16 Bajo D",
+    poblacion: "41002 Sevilla"
   }
 };
 
@@ -85,6 +87,7 @@ function updateCompanyDetails() {
   document.getElementById('prev-companyName').textContent = empresa.nombre;
   document.getElementById('prev-companyCif').textContent = empresa.cif;
   document.getElementById('prev-companyAddress').textContent = empresa.direccion;
+  document.getElementById('prev-companyLocation').textContent = empresa.poblacion;
   fetchInvoiceNumber(key);
 }
 
@@ -173,7 +176,6 @@ document.getElementById('downloadPdfBtn').addEventListener('click', async () => 
     empresaEmisora: EMPRESAS[companyKey].nombre
   };
 
-  // Guardar datos en Google Sheets
   try {
     await fetch(SCRIPT_URL, {
       method: 'POST',
@@ -185,7 +187,6 @@ document.getElementById('downloadPdfBtn').addEventListener('click', async () => 
     console.error("Error al registrar la factura:", err);
   }
 
-  // Generación de la descarga PDF
   const element = document.getElementById('invoice-preview');
   const fileName = `FACTURA_${numFactura}.pdf`.replace(/\s+/g, '_');
 
@@ -207,7 +208,6 @@ document.getElementById('downloadPdfBtn').addEventListener('click', async () => 
   try {
     await html2pdf().set(opt).from(element).save();
 
-    // Resetear formulario tras la descarga
     document.getElementById('customerName').value = '';
     document.getElementById('cifNif').value = '';
     document.getElementById('address').value = '';
