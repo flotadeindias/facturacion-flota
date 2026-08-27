@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     
     <!-- Hoja de estilos -->
-    <link rel="stylesheet" href="style.css?v=10.0">
+    <link rel="stylesheet" href="style.css?v=11.0">
 
     <!-- html2pdf.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
@@ -104,15 +104,20 @@
                     </div>
                 </div>
 
-                <div class="section-divider"><span>Detalle de Estancia</span></div>
+                <div class="section-divider"><span>Detalle de Facturación</span></div>
+
+                <div class="form-group">
+                    <label for="conceptInput">Concepto de la Factura</label>
+                    <input type="text" id="conceptInput" value="ESTANCIA APARTAMENTO" placeholder="Concepto (ej. ESTANCIA APARTAMENTO)" />
+                </div>
 
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="entryDate">Fecha de entrada</label>
+                        <label for="entryDate">Fecha entrada (opcional)</label>
                         <input type="date" id="entryDate" />
                     </div>
                     <div class="form-group">
-                        <label for="exitDate">Fecha de salida</label>
+                        <label for="exitDate">Fecha salida (opcional)</label>
                         <input type="date" id="exitDate" />
                     </div>
                 </div>
@@ -177,7 +182,7 @@
                         <tbody>
                             <tr>
                                 <td id="prev-concept">ESTANCIA APARTAMENTO</td>
-                                <td id="prev-nights" class="text-center">0</td>
+                                <td id="prev-nights" class="text-center">-</td>
                                 <td id="prev-total" class="text-right">0,00 €</td>
                             </tr>
                         </tbody>
@@ -213,7 +218,7 @@
     </div>
 
     <!-- Lógica de la aplicación -->
-    <script src="app.js?v=10.0"></script>
+    <script src="app.js?v=11.0"></script>
 </body>
 
 </html>
