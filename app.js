@@ -159,7 +159,8 @@ function updatePreview() {
   }
 
   const total = parseFloat(getVal('totalPrice')) || 0;
-  const formattedTotal = `${total.toLocaleString("es-ES", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €`;
+  // Espacio duro (\u00A0) para evitar que el símbolo € baje de línea
+  const formattedTotal = `${total.toLocaleString("es-ES", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}\u00A0€`;
   
   document.getElementById('prev-total').textContent = formattedTotal;
   document.getElementById('prev-baseTotal').textContent = formattedTotal;
