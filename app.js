@@ -54,7 +54,7 @@ document.getElementById('loginForm')?.addEventListener('submit', (e) => {
   const pass = document.getElementById('password').value.trim();
 
   if (user === CREDENTIALS.usuario && pass === CREDENTIALS.contraseña) {
-    localStorage.setItem('invoice_app_logged_in', 'true'); // Guarda la sesión guardada
+    localStorage.setItem('invoice_app_logged_in', 'true');
     document.getElementById('login-screen').style.display = 'none';
     document.getElementById('app-container').style.display = 'flex';
     initApp();
