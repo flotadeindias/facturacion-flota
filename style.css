@@ -3,17 +3,17 @@
    ========================================================= */
 
 :root {
-  --navy-blue: #0f172a; /* Azul marino oscuro original */
+  --navy-blue: #0f172a; 
   --navy-hover: #1e293b;
-  --accent-green: #1b5e20; /* Verde oscuro */
+  --accent-green: #1b5e20; 
   --accent-green-hover: #144917;
   --bg-body: #eceff1;
   --border-color: #cfd8dc;
   --text-primary: #0f172a;
 }
 
-* {
-  box-sizing: border-box;
+*, *::before, *::after {
+  box-sizing: border-box !important;
   margin: 0;
   padding: 0;
 }
@@ -74,6 +74,8 @@ body {
   display: flex;
   flex-direction: column;
   gap: 5px;
+  width: 100%;
+  min-width: 0;
 }
 
 .form-group label {
@@ -89,6 +91,7 @@ body {
   font-size: 0.9rem;
   transition: border-color 0.2s;
   background-color: #ffffff;
+  width: 100%;
 }
 
 .form-group input:focus, .form-group select:focus {
@@ -100,6 +103,7 @@ body {
   position: relative;
   display: flex;
   align-items: center;
+  width: 100%;
 }
 
 .password-wrapper input {
@@ -139,13 +143,14 @@ body {
   align-items: center;
   justify-content: center;
   gap: 8px;
+  width: 100%;
 }
 
 .btn-primary:hover {
   background-color: var(--navy-hover);
 }
 
-/* 2. PANEL PRINCIPAL LAYOUT */
+/* 2. PANEL PRINCIPAL LAYOUT (PC) */
 #app-container {
   display: flex;
   flex-direction: row;
@@ -153,13 +158,7 @@ body {
   padding: 25px;
   max-width: 1600px;
   margin: 0 auto;
-}
-
-@media (max-width: 1200px) {
-  #app-container {
-    flex-direction: column;
-    align-items: center;
-  }
+  width: 100%;
 }
 
 .sidebar {
@@ -167,8 +166,8 @@ body {
   border-radius: 12px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   padding: 24px;
-  flex: 0 0 420px;
-  width: 100%;
+  width: 420px;
+  flex-shrink: 0;
 }
 
 .sidebar-header h3 {
@@ -182,13 +181,16 @@ body {
   padding-bottom: 10px;
 }
 
+/* Filas en 2 columnas para PC */
 .form-row {
   display: flex;
   gap: 12px;
+  width: 100%;
 }
 
 .form-row .form-group {
-  flex: 1;
+  flex: 1 1 50%;
+  min-width: 0;
 }
 
 .section-divider {
@@ -424,4 +426,27 @@ body {
   font-size: 0.72rem;
   color: #94a3b8;
   line-height: 1.3;
+}
+
+/* 4. EXCLUSIVO PARA MÓVILES (Los campos pasan a 1 sola columna para no salir de la tarjeta) */
+@media (max-width: 768px) {
+  #app-container {
+    flex-direction: column;
+    padding: 12px;
+    gap: 15px;
+  }
+
+  .sidebar {
+    width: 100%;
+    padding: 16px;
+  }
+
+  .form-row {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .form-group input, .form-group select {
+    font-size: 16px; 
+  }
 }
