@@ -409,6 +409,7 @@ input[type="date"] {
   border-bottom: 1px solid #e2e8f0;
   font-size: 0.9rem;
   color: #1e293b;
+  white-space: nowrap;
 }
 
 .text-center { text-align: center; }
@@ -421,8 +422,9 @@ input[type="date"] {
 }
 
 .totals-table {
-  width: 260px;
+  width: 280px;
   border-collapse: collapse;
+  margin-left: auto;
 }
 
 .totals-table td {
@@ -430,6 +432,7 @@ input[type="date"] {
   font-size: 0.9rem;
   text-align: right;
   color: #475569;
+  white-space: nowrap;
 }
 
 .totals-table tr.total-row td {
