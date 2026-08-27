@@ -21,6 +21,17 @@ const EMPRESAS = {
 
 const CREDENTIALS = { usuario: "flotadeindias", contraseña: "Flotadeindias.02" };
 
+// Comprobar la sesión al cargar la página
+document.addEventListener('DOMContentLoaded', () => {
+  const sessionActive = localStorage.getItem('invoice_app_logged_in');
+  
+  if (sessionActive === 'true') {
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('app-container').style.display = 'flex';
+    initApp();
+  }
+});
+
 // Visibilidad de Contraseña
 document.getElementById('togglePasswordBtn')?.addEventListener('click', () => {
   const passInput = document.getElementById('password');
@@ -36,13 +47,14 @@ document.getElementById('togglePasswordBtn')?.addEventListener('click', () => {
   }
 });
 
-// 1. Control de Autenticación
+// 1. Control de Autenticación y Guardado de Sesión
 document.getElementById('loginForm')?.addEventListener('submit', (e) => {
   e.preventDefault();
   const user = document.getElementById('username').value.trim();
   const pass = document.getElementById('password').value.trim();
 
   if (user === CREDENTIALS.usuario && pass === CREDENTIALS.contraseña) {
+    localStorage.setItem('invoice_app_logged_in', 'true'); // Guarda la sesión guardada
     document.getElementById('login-screen').style.display = 'none';
     document.getElementById('app-container').style.display = 'flex';
     initApp();
