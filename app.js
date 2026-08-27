@@ -19,6 +19,21 @@ const EMPRESAS = {
 
 const CREDENTIALS = { usuario: "flotadeindias", contraseña: "Flotadeindias.02" };
 
+// Visibilidad de Contraseña
+document.getElementById('togglePasswordBtn')?.addEventListener('click', () => {
+  const passInput = document.getElementById('password');
+  const icon = document.getElementById('togglePasswordIcon');
+  if (passInput.type === 'password') {
+    passInput.type = 'text';
+    icon.classList.remove('bi-eye');
+    icon.classList.add('bi-eye-slash');
+  } else {
+    passInput.type = 'password';
+    icon.classList.remove('bi-eye-slash');
+    icon.classList.add('bi-eye');
+  }
+});
+
 // 1. Control de Autenticación
 document.getElementById('loginForm')?.addEventListener('submit', (e) => {
   e.preventDefault();
@@ -134,7 +149,7 @@ function updatePreview() {
   document.getElementById('prev-finalTotal').textContent = formattedTotal;
 }
 
-// 5. Registro y Generación de PDF
+// 5. Registro y Generación de PDF (1 Sola Página Garantizada)
 document.getElementById('downloadPdfBtn').addEventListener('click', async () => {
   const btn = document.getElementById('downloadPdfBtn');
   btn.disabled = true;
@@ -170,10 +185,8 @@ document.getElementById('downloadPdfBtn').addEventListener('click', async () => 
     console.error("Error al registrar la factura:", err);
   }
 
-  // Generación de la descarga PDF (Ajustado para 1 sola página exacta)
+  // Generación de descarga PDF
   const element = document.getElementById('invoice-preview');
-  
-  /* Nombre de archivo estandarizado: FACTURA F-50001.pdf */
   const fileName = `FACTURA_${numFactura}.pdf`.replace(/\s+/g, '_');
 
   const opt = {
@@ -185,7 +198,8 @@ document.getElementById('downloadPdfBtn').addEventListener('click', async () => 
       useCORS: true,
       scrollY: 0
     },
-    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+    jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+    pagebreak: { mode: 'avoid-all' }
   };
 
   try {
