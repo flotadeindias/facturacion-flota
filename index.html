@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Facturación</title>
+    <!-- Hoja de estilos de la aplicación -->
+    <link rel="stylesheet" href="style.css">
+    <!-- Librería para la exportación a PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+
+<body>
+
+    <!-- 1. Pantalla de Autenticación -->
+    <div id="login-screen">
+        <form id="loginForm">
+            <h2>Acceso al Sistema</h2>
+            <input type="text" id="username" placeholder="Usuario" required />
+            <input type="password" id="password" placeholder="Contraseña" required />
+            <button type="submit">Iniciar Sesión</button>
+        </form>
+    </div>
+
+    <!-- 2. Panel Principal (Protegido por Login) -->
+    <div id="app-container" style="display: none;">
+        
+        <!-- Formulario de entrada de datos de la factura -->
+        <form id="invoiceForm">
+            <select id="companySelect">
+                <option value="flota">Apartamentos Flota de Indias SL</option>
+                <option value="carrascal">Carrascal & Medina SL</option>
+            </select>
+            
+            <input type="text" id="invoiceNumber" placeholder="Nº Factura" readonly />
+            <input type="date" id="invoiceDate" />
+            <input type="text" id="customerName" placeholder="Nombre del Cliente" />
+            <input type="text" id="cifNif" placeholder="CIF / NIF" />
+            <input type="text" id="address" placeholder="Domicilio" />
+            <input type="text" id="postalCode" placeholder="Código Postal" />
+            <input type="text" id="province" placeholder="Provincia" />
+            <input type="date" id="entryDate" placeholder="Fecha Entrada" />
+            <input type="date" id="exitDate" placeholder="Fecha Salida" />
+            <input type="number" id="totalPrice" placeholder="Precio Total (€)" step="0.01" />
+            
+            <button id="downloadPdfBtn" type="button">Descargar Factura PDF</button>
+        </form>
+
+        <!-- Vista previa formato Hoja A4 -->
+        <div id="invoice-preview">
+            <div class="company-header">
+                <div class="company-details">
+                    <h2 id="prev-companyName">Empresa Emisora</h2>
+                    <p id="prev-companyCif">CIF/NIF Empresa</p>
+                    <p id="prev-companyAddress">Dirección Empresa</p>
+                </div>
+                <img id="prev-companyLogo" src="logo.jpg" alt="Logo Empresa" />
+            </div>
+            
+            <hr />
+
+            <div class="client-header">
+                <div class="client-info">
+                    <h3 id="prev-customerName">Nombre Cliente</h3>
+                    <p id="prev-cifNif">CIF/NIF Cliente</p>
+                    <p id="prev-address">Domicilio</p>
+                    <p id="prev-location">Población / Provincia</p>
+                </div>
+                <div class="invoice-meta">
+                    <p><strong>Nº Factura:</strong> <span id="prev-invoiceNumber">-</span></p>
+                    <p><strong>Fecha:</strong> <span id="prev-invoiceDate">-</span></p>
+                </div>
+            </div>
+
+            <table class="preview-table">
+                <thead>
+                    <tr>
+                        <th>Concepto</th>
+                        <th>Noches</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td id="prev-concept">-</td>
+                        <td id="prev-nights">-</td>
+                        <td id="prev-total">-</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="total-summary">
+                <p><strong>TOTAL FACTURA:</strong> <span id="prev-finalTotal">0,00 €</span></p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Script de lógica de la aplicación -->
+    <script src="app.js"></script>
+</body>
+
+</html>
