@@ -75,7 +75,8 @@ body {
   flex-direction: column;
   gap: 5px;
   width: 100%;
-  min-width: 0;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
 }
 
 .form-group label {
@@ -92,16 +93,24 @@ body {
   font-size: 0.9rem;
   transition: border-color 0.2s;
   background-color: #ffffff;
-  width: 100%;
-  max-width: 100%;
-  min-width: 0;
-  -webkit-appearance: none; /* Quita estilos nativos agresivos de iOS */
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+  -webkit-appearance: none !important;
+  -moz-appearance: none !important;
+  appearance: none !important;
 }
 
-/* Arreglo específico para los inputs de tipo date en iOS */
+/* Regla especial anti-desbordamiento de Safari/Android en fechas */
 input[type="date"] {
   min-height: 42px;
-  line-height: normal;
+  line-height: 1.2;
+  display: block;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  -webkit-min-logical-width: 0 !important;
 }
 
 .form-group input:focus, .form-group select:focus {
@@ -169,6 +178,7 @@ input[type="date"] {
   max-width: 1600px;
   margin: 0 auto;
   width: 100%;
+  box-sizing: border-box;
 }
 
 .sidebar {
@@ -179,7 +189,8 @@ input[type="date"] {
   width: 420px;
   max-width: 100%;
   flex-shrink: 0;
-  overflow: hidden; /* Garantiza que nada desborde de la tarjeta */
+  overflow: hidden;
+  box-sizing: border-box;
 }
 
 .sidebar-header h3 {
@@ -198,11 +209,12 @@ input[type="date"] {
   display: flex;
   gap: 12px;
   width: 100%;
+  box-sizing: border-box;
 }
 
 .form-row .form-group {
-  flex: 1 1 0px; /* Fuerza que ambas columnas midan exactamente la mitad */
-  min-width: 0;
+  flex: 1 1 0px;
+  min-width: 0 !important;
 }
 
 .section-divider {
@@ -440,27 +452,26 @@ input[type="date"] {
   line-height: 1.3;
 }
 
-/* 4. ADAPTACIÓN EXCLUSIVA PARA MÓVILES */
+/* 4. ADAPTACIÓN RESPONSIVA MÓVIL (iOS Y ANDROID) */
 @media (max-width: 768px) {
   #app-container {
-    flex-direction: column;
-    padding: 12px;
-    gap: 15px;
+    flex-direction: column !important;
+    padding: 10px !important;
+    gap: 15px !important;
   }
 
   .sidebar {
-    width: 100%;
-    padding: 16px;
+    width: 100% !important;
+    padding: 16px !important;
   }
 
   .form-row {
-    flex-direction: column;
-    gap: 0;
+    flex-direction: column !important;
+    gap: 0 !important;
   }
 
   .form-group input, 
   .form-group select {
-    font-size: 16px;
-    padding: 10px;
+    font-size: 16px !important; /* Previene el zoom automático de iPhone al pulsar inputs */
   }
 }
