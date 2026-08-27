@@ -1,8 +1,20 @@
+/* =========================================================
+   Sistema de Facturación — Lógica de Aplicación
+   ========================================================= */
+
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxuIXencyzGH2HLBVAptu4DRQ4l9Pq-IluCKiNmyQmEuwQKWKtEgMpAxvj3BWxcGYRc/exec';
 
 const EMPRESAS = {
-  flota: { nombre: "APARTAMENTOS FLOTA DE INDIAS S.L.", cif: "CIF: B90362906", direccion: "C/ Pozo Nuevo 1 1A, 41927 Mairena del Aljarafe" },
-  carrascal: { nombre: "CARRASCAL & MEDINA SL", cif: "CIF: B56344088", direccion: "Fernández y González, 16 Bajo D, 41002 Sevilla" }
+  flota: { 
+    nombre: "APARTAMENTOS FLOTA DE INDIAS S.L.", 
+    cif: "CIF: B90362906", 
+    direccion: "C/ Pozo Nuevo 1 1A, 41927 Mairena del Aljarafe" 
+  },
+  carrascal: { 
+    nombre: "CARRASCAL & MEDINA SL", 
+    cif: "CIF: B56344088", 
+    direccion: "Fernández y González, 16 Bajo D, 41002 Sevilla" 
+  }
 };
 
 const CREDENTIALS = { usuario: "flotadeindias", contraseña: "Flotadeindias.02" };
@@ -46,7 +58,7 @@ async function fetchInvoiceNumber(companyKey) {
     console.error("Error al obtener numeración:", error);
     numInput.value = 'F-50001';
   }
-  document.getElementById('prev-invoiceNumber').textContent = numInput.value;
+  updatePreview();
 }
 
 // 3. Cambio de Empresa
@@ -69,8 +81,18 @@ invoiceForm.addEventListener('change', updatePreview);
 function updatePreview() {
   const getVal = (id) => document.getElementById(id)?.value || '';
 
-  document.getElementById('prev-invoiceNumber').textContent = getVal('invoiceNumber') || '-';
-  document.getElementById('prev-invoiceDate').textContent = getVal('invoiceDate') || '-';
+  const rawNum = getVal('invoiceNumber') || 'F-50001';
+  document.getElementById('prev-invoiceNumber').textContent = rawNum;
+
+  // Formato Fecha ES
+  const invDate = getVal('invoiceDate');
+  if (invDate) {
+    const [y, m, d] = invDate.split('-');
+    document.getElementById('prev-invoiceDate').textContent = `${d}/${m}/${y}`;
+  } else {
+    document.getElementById('prev-invoiceDate').textContent = '-';
+  }
+
   document.getElementById('prev-customerName').textContent = getVal('customerName') || 'Nombre Cliente';
   document.getElementById('prev-cifNif').textContent = getVal('cifNif') || 'CIF/NIF Cliente';
   document.getElementById('prev-address').textContent = getVal('address') || 'Domicilio';
@@ -105,8 +127,10 @@ function updatePreview() {
   }
 
   const total = parseFloat(getVal('totalPrice')) || 0;
-  const formattedTotal = `${total.toFixed(2)} €`;
+  const formattedTotal = `${total.toLocaleString("es-ES", { minimumFractionDigits: 2, maximumFractionDigits: 2 })} €`;
+  
   document.getElementById('prev-total').textContent = formattedTotal;
+  document.getElementById('prev-baseTotal').textContent = formattedTotal;
   document.getElementById('prev-finalTotal').textContent = formattedTotal;
 }
 
@@ -117,7 +141,7 @@ document.getElementById('downloadPdfBtn').addEventListener('click', async () => 
   btn.textContent = 'Procesando...';
 
   const companyKey = document.getElementById('companySelect').value;
-  const numFactura = document.getElementById('invoiceNumber').value;
+  const numFactura = document.getElementById('invoiceNumber').value.trim() || 'F-50001';
   const cliente = document.getElementById('customerName').value || 'Cliente';
 
   const payload = {
@@ -146,13 +170,21 @@ document.getElementById('downloadPdfBtn').addEventListener('click', async () => 
     console.error("Error al registrar la factura:", err);
   }
 
-  // Generación de la descarga PDF
+  // Generación de la descarga PDF (Ajustado para 1 sola página exacta)
   const element = document.getElementById('invoice-preview');
+  
+  /* Nombre de archivo estandarizado: FACTURA F-50001.pdf */
+  const fileName = `FACTURA_${numFactura}.pdf`.replace(/\s+/g, '_');
+
   const opt = {
-    margin: 10,
-    filename: `${numFactura}_${cliente.replace(/\s+/g, '_')}.pdf`,
+    margin: 0,
+    filename: fileName,
     image: { type: 'jpeg', quality: 0.98 },
-    html2canvas: { scale: 2, useCORS: true },
+    html2canvas: { 
+      scale: 2, 
+      useCORS: true,
+      scrollY: 0
+    },
     jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
   };
 
@@ -175,6 +207,6 @@ document.getElementById('downloadPdfBtn').addEventListener('click', async () => 
     console.error("Error en la generación de PDF:", err);
   } finally {
     btn.disabled = false;
-    btn.textContent = 'Descargar Factura PDF';
+    btn.innerHTML = '<i class="bi bi-file-earmark-pdf-fill"></i> Descargar Factura PDF';
   }
 });
